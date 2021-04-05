@@ -1,0 +1,25 @@
+﻿@typeparam T
+
+<div class="dropdown allowed-autocomplete">
+    <input type="text" class="form-control" value="@InputValue" @oninput="Input" @onfocus="Focus" @onfocusout="FocusOut">
+    <ul class="dropdown-menu@(IsDropdownShow() ? " show" : "")"
+        style="@(IsDropdownShow() ? "position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(0px, 40px); min-width: 100%;" : "")">
+        @if (Items.Count != 0)
+        {
+            foreach (AutocompleteItem<T> item in Items)
+            {
+                <li>
+                    <button class="dropdown-item" @onfocus="Focus" @onfocusout="FocusOut" @onclick="() => SelectItem(item)">
+                        @item.Value
+                    </button>
+                </li>
+            }
+        }
+        else
+        {
+            <li>
+                <button class="dropdown-item disabled" @onfocus="Focus" @onfocusout="FocusOut">@NotFoundText</button>
+            </li>
+        }
+    </ul>
+</div>
