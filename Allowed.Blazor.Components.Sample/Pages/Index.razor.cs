@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Components;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Allowed.Blazor.Components.Sample.Pages
 {
@@ -31,8 +32,9 @@ namespace Allowed.Blazor.Components.Sample.Pages
         private List<AutocompleteItem<int>> SearchDirections = new();
         private List<AutocompleteItem<int>> SearchShapes = new();
 
-        public void OnColorInput(string value)
+        public async Task OnColorInput(string value)
         {
+            await Task.Delay(500);
             SearchColors = Colors.Where(i => i.Value.ToLower().Contains(value.ToLower())).ToList();
         }
 

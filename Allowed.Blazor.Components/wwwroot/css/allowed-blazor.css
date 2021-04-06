@@ -1,0 +1,4 @@
+﻿.allowed-autocomplete-loading > input {
+    background: #fff url(/_content/Allowed.Blazor.Components/img/preloader.svg) 100% center no-repeat;
+    background-size: contain;
+}
