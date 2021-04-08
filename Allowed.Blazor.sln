@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31112.23
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Allowed.Blazor.Components", "Allowed.Blazor.Components\Allowed.Blazor.Components.csproj", "{4BDE476E-BCAC-4AD2-A77D-DB79ED939763}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Allowed.Blazor.Components", "Allowed.Blazor.Components\Allowed.Blazor.Components.csproj", "{4BDE476E-BCAC-4AD2-A77D-DB79ED939763}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{7C2B8009-7F4A-4487-BBEC-95E1E84B477A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{7C894B86-F292-4657-BD38-B6D6FFC7B72F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Allowed.Blazor.Components.Sample", "Allowed.Blazor.Components.Sample\Allowed.Blazor.Components.Sample.csproj", "{8DBBDAD9-D4E3-4525-A30D-91A55963803B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Allowed.Blazor.Components.Sample", "Allowed.Blazor.Components.Sample\Allowed.Blazor.Components.Sample.csproj", "{8DBBDAD9-D4E3-4525-A30D-91A55963803B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Allowed.Blazor.Common", "Allowed.Blazor.Common\Allowed.Blazor.Common.csproj", "{5A5522AD-A121-4625-A19A-2EBD4D19B878}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,6 +27,10 @@ Global
 		{8DBBDAD9-D4E3-4525-A30D-91A55963803B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8DBBDAD9-D4E3-4525-A30D-91A55963803B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8DBBDAD9-D4E3-4525-A30D-91A55963803B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A5522AD-A121-4625-A19A-2EBD4D19B878}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A5522AD-A121-4625-A19A-2EBD4D19B878}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A5522AD-A121-4625-A19A-2EBD4D19B878}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A5522AD-A121-4625-A19A-2EBD4D19B878}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -32,6 +38,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{4BDE476E-BCAC-4AD2-A77D-DB79ED939763} = {7C2B8009-7F4A-4487-BBEC-95E1E84B477A}
 		{8DBBDAD9-D4E3-4525-A30D-91A55963803B} = {7C894B86-F292-4657-BD38-B6D6FFC7B72F}
+		{5A5522AD-A121-4625-A19A-2EBD4D19B878} = {7C2B8009-7F4A-4487-BBEC-95E1E84B477A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {89192554-C987-4972-9F9E-EBDB5A83A769}
