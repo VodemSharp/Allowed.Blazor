@@ -2,8 +2,7 @@
 
 <div class="dropdown allowed-autocomplete@(Processing ? " allowed-autocomplete-loading" : "")">
     <input type="text" class="form-control" value="@InputValue" @oninput="Input" @onfocus="Focus" @onfocusout="FocusOut">
-    <ul class="dropdown-menu@(IsDropdownShow() ? " show" : "")"
-        style="@(IsDropdownShow() ? "position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(0px, 40px); min-width: 100%;" : "")">
+    <ul class="dropdown-menu@(IsDropdownShow() ? " show" : "")">
         @if (Items.Count != 0)
         {
             foreach (AutocompleteItem<T> item in Items)
