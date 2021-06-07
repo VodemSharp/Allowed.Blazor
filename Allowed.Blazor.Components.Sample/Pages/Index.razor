@@ -1,13 +1,16 @@
 ﻿<div class="container">
     <div class="row">
         <div class="col-4">
-            <Autocomplete T="int" Items="SearchColors" OnInput="OnColorInput" OnSelect="OnColorSelect" NotFoundText="Not found" InputDelay="500" />
+            <Autocomplete T="int" Items="SearchColors" OnInput="OnColorInput" OnSelect="OnColorSelect"
+                          NotFoundText="Not found" InputDelay="500" @bind-InputValue="ColorValue" />
         </div>
         <div class="col-4">
-            <Autocomplete T="int" Items="SearchDirections" OnInput="OnDirectionInput" OnSelect="OnDirectionSelect" NotFoundText="Not found" />
+            <Autocomplete T="int" Items="SearchDirections" OnInput="OnDirectionInput" OnSelect="OnDirectionSelect"
+                          NotFoundText="Not found" @bind-InputValue="DirectionValue" />
         </div>
         <div class="col-4">
-            <Autocomplete T="int" Items="SearchShapes" OnInput="OnShapeInput" OnSelect="OnShapeSelect" NotFoundText="Not found" />
+            <Autocomplete T="int" Items="SearchShapes" OnInput="OnShapeInput" OnSelect="OnShapeSelect"
+                          NotFoundText="Not found" @bind-InputValue="ShapeValue" />
         </div>
     </div>
 </div>

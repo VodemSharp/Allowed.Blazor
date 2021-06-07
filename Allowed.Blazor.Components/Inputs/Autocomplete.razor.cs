@@ -12,10 +12,11 @@ namespace Allowed.Blazor.Components.Inputs
         [Parameter] public List<AutocompleteItem<T>> Items { get; set; }
         [Parameter] public EventCallback<string> OnInput { get; set; }
         [Parameter] public EventCallback<AutocompleteItem<T>> OnSelect { get; set; }
+        [Parameter] public string InputValue { get; set; }
+        [Parameter] public EventCallback<string> InputValueChanged { get; set; }
         [Parameter] public string NotFoundText { get; set; }
         [Parameter] public int? InputDelay { get; set; }
 
-        private string InputValue { get; set; }
         private bool Focused { get; set; } = false;
         private bool Typing { get; set; } = false;
         private bool Processing { get; set; } = false;
@@ -28,7 +29,9 @@ namespace Allowed.Blazor.Components.Inputs
         {
             SelectedItem = null;
 
-            InputValue = e.Value.ToString();
+            await InputValueChanged.InvokeAsync(e.Value.ToString());
+            string localInputValue = e.Value.ToString();
+
             Typing = true;
 
             if (!InputDelay.HasValue)
@@ -43,7 +46,7 @@ namespace Allowed.Blazor.Components.Inputs
             {
                 Timer?.Change(Timeout.Infinite, 0);
 
-                if (!string.IsNullOrEmpty(InputValue))
+                if (!string.IsNullOrEmpty(localInputValue))
                     Timer = new(SendRequest, e.Value.ToString(), InputDelay.Value, Timeout.Infinite);
             }
         }
@@ -69,10 +72,7 @@ namespace Allowed.Blazor.Components.Inputs
         private async Task SelectItem(AutocompleteItem<T> item)
         {
             SelectedItem = item;
-
-            InputValue = item.Value;
             await OnSelect.InvokeAsync(item);
-
             Focused = false;
         }
 

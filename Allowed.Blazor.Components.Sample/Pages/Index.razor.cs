@@ -32,6 +32,10 @@ namespace Allowed.Blazor.Components.Sample.Pages
         private List<AutocompleteItem<int>> SearchDirections = new();
         private List<AutocompleteItem<int>> SearchShapes = new();
 
+        private string ColorValue { get; set; }
+        private string DirectionValue { get; set; }
+        private string ShapeValue { get; set; }
+
         public async Task OnColorInput(string value)
         {
             await Task.Delay(500);
@@ -50,11 +54,13 @@ namespace Allowed.Blazor.Components.Sample.Pages
 
         public void OnColorSelect(AutocompleteItem<int> item)
         {
+            ColorValue = item.Value;
             SearchColors = Colors.Where(i => i.Value.ToLower().Contains(item.Value.ToLower())).ToList();
         }
 
         public void OnDirectionSelect(AutocompleteItem<int> item)
         {
+            DirectionValue = string.Empty;
             SearchColors = Colors.Where(i => i.Value.ToLower().Contains(item.Value.ToLower())).ToList();
         }
 
