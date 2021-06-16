@@ -9,8 +9,9 @@ namespace Allowed.Blazor.Common
     {
         public static IServiceCollection AddStorages(this IServiceCollection services)
         {
-            services.AddTransient<CookieStorage>();
+            services.AddScoped<StorageQueue>();
             services.AddTransient<LocalStorage>();
+            services.AddTransient<CookieStorage>();
 
             return services;
         }

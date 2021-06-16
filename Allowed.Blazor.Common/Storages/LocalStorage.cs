@@ -7,19 +7,29 @@ namespace Allowed.Blazor.Common.Storages
     public class LocalStorage : IAsyncDisposable
     {
         private readonly IJSRuntime _jsRuntime;
+        private readonly StorageQueue _queue;
 
         private Task<IJSObjectReference> _module;
         private Task<IJSObjectReference> Module => _module ??=
             _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Allowed.Blazor.Common/local-storage.js").AsTask();
 
-        public LocalStorage(IJSRuntime jsRuntime)
+        public LocalStorage(IJSRuntime jsRuntime, StorageQueue queue)
         {
             _jsRuntime = jsRuntime;
+            _queue = queue;
+        }
+
+        public async Task InvokeSet(Func<Task> func)
+        {
+            if (_queue.Ready)
+                await func.Invoke();
+            else
+                _queue.Tasks.Enqueue(func);
         }
 
         public async Task SetLocal(string name, string value)
         {
-            await (await Module).InvokeVoidAsync("setLocal", name, value);
+            await InvokeSet(async () => await (await Module).InvokeVoidAsync("setLocal", name, value));
         }
 
         public async Task<string> GetLocal(string name)

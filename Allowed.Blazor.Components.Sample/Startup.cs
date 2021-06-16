@@ -1,3 +1,4 @@
+using Allowed.Blazor.Common;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -21,6 +22,11 @@ namespace Allowed.Blazor.Components.Sample
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
+            services.AddHttpContextAccessor();
+
+            services.AddJSConsole();
+            services.AddJSLocalization();
+            services.AddStorages();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

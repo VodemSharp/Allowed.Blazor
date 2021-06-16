@@ -11,7 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{7C89
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Allowed.Blazor.Components.Sample", "Allowed.Blazor.Components.Sample\Allowed.Blazor.Components.Sample.csproj", "{8DBBDAD9-D4E3-4525-A30D-91A55963803B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Allowed.Blazor.Common", "Allowed.Blazor.Common\Allowed.Blazor.Common.csproj", "{5A5522AD-A121-4625-A19A-2EBD4D19B878}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Allowed.Blazor.Common", "Allowed.Blazor.Common\Allowed.Blazor.Common.csproj", "{5A5522AD-A121-4625-A19A-2EBD4D19B878}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

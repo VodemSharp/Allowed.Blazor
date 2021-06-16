@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Allowed.Blazor.Common\Allowed.Blazor.Common.csproj" />
     <ProjectReference Include="..\Allowed.Blazor.Components\Allowed.Blazor.Components.csproj" />
   </ItemGroup>
 
