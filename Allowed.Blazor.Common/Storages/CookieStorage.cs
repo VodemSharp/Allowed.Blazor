@@ -34,7 +34,12 @@ namespace Allowed.Blazor.Common.Storages
             else
             {
                 if (value != null)
-                    _tempCookies[name] = value;
+                {
+                    if (_tempCookies.ContainsKey(name))
+                        _tempCookies[name] = value;
+                    else
+                        _tempCookies.Add(name, value);
+                }
 
                 if (value == null && _tempCookies.ContainsKey(name))
                     _tempCookies.Remove(name);
@@ -66,7 +71,7 @@ namespace Allowed.Blazor.Common.Storages
             if (_queue.Ready)
                 return await (await Module).InvokeAsync<string>("getCookie", name);
             else
-                return _tempCookies[name];
+                return _tempCookies.ContainsKey(name) ? _tempCookies[name] : null;
         }
 
         public async ValueTask DisposeAsync()

@@ -1,7 +1,7 @@
 ﻿@typeparam T
 
 <div class="dropdown allowed-autocomplete@(Processing ? " allowed-autocomplete-loading" : "")">
-    <input type="text" class="form-control" value="@InputValue" @oninput="Input" @onfocus="Focus" @onfocusout="FocusOut">
+    <input type="text" class="form-control" value="@InputValue" @oninput="Input" @onfocus="Focus" @onfocusout="FocusOut" />
     <ul class="dropdown-menu@(IsDropdownShow() ? " show" : "")">
         @if (Items.Count != 0)
         {
