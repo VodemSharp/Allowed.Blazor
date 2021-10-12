@@ -13,10 +13,10 @@ namespace Allowed.Blazor.Common.Components
         {
             if (firstRender)
             {
-                Queue.Ready = true;
-
                 while (Queue.Tasks.Count > 0)
                     await Queue.Tasks.Dequeue().Invoke();
+
+                Queue.Ready = true;
             }
         }
     }

@@ -13,7 +13,6 @@ namespace Allowed.Blazor.Components.Sample.Pages
 
         protected override async Task OnInitializedAsync()
         {
-            TestCookie = await CookieStorage.GetCookie("test");
             await CookieStorage.SetCookie("test", Guid.NewGuid().ToString());
         }
 
