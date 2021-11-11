@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Allowed.Blazor.Common.Helpers;
+using Microsoft.AspNetCore.Http;
 using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
@@ -10,16 +11,18 @@ namespace Allowed.Blazor.Common.Storages
     {
         private readonly IJSRuntime _jsRuntime;
         private readonly StorageQueue _queue;
+        private readonly CookieLocker _cookieLocker;
         private readonly Dictionary<string, string> _tempCookies = new();
 
         private Task<IJSObjectReference> _module;
         private Task<IJSObjectReference> Module => _module ??=
             _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Allowed.Blazor.Common/cookie-storage.js").AsTask();
 
-        public CookieStorage(IHttpContextAccessor accessor, IJSRuntime jsRuntime, StorageQueue queue)
+        public CookieStorage(IHttpContextAccessor accessor, IJSRuntime jsRuntime, StorageQueue queue, CookieLocker cookieLocker)
         {
             _jsRuntime = jsRuntime;
             _queue = queue;
+            _cookieLocker = cookieLocker;
 
             foreach (KeyValuePair<string, string> cookie in accessor.HttpContext.Request.Cookies)
                 _tempCookies.TryAdd(cookie.Key, cookie.Value);
@@ -27,25 +30,28 @@ namespace Allowed.Blazor.Common.Storages
 
         public async Task InvokeSet(Func<Task> func, string name, string value)
         {
-            if (_queue.Ready)
+            await _cookieLocker.LockAsync(async () =>
             {
-                await func.Invoke();
-            }
-            else
-            {
-                if (value != null)
+                if (_queue.Ready)
                 {
-                    if (_tempCookies.ContainsKey(name))
-                        _tempCookies[name] = value;
-                    else
-                        _tempCookies.Add(name, value);
+                    await func.Invoke();
                 }
+                else
+                {
+                    if (value != null)
+                    {
+                        if (_tempCookies.ContainsKey(name))
+                            _tempCookies[name] = value;
+                        else
+                            _tempCookies.Add(name, value);
+                    }
 
-                if (value == null && _tempCookies.ContainsKey(name))
-                    _tempCookies.Remove(name);
+                    if (value == null && _tempCookies.ContainsKey(name))
+                        _tempCookies.Remove(name);
 
-                _queue.Tasks.Enqueue(func);
-            }
+                    _queue.Tasks.Enqueue(func);
+                }
+            });
         }
 
         public async Task SetCookie(string name, string value, int maxAge = 86400, string domain = "", string path = "/")
@@ -68,10 +74,16 @@ namespace Allowed.Blazor.Common.Storages
 
         public async Task<string> GetCookie(string name)
         {
-            if (_queue.Ready)
-                return await (await Module).InvokeAsync<string>("getCookie", name);
-            else
-                return _tempCookies.ContainsKey(name) ? _tempCookies[name] : null;
+            string result = null;
+            await _cookieLocker.LockAsync(async () =>
+            {
+                if (_queue.Ready)
+                    result = await (await Module).InvokeAsync<string>("getCookie", name);
+                else
+                    result = _tempCookies.ContainsKey(name) ? _tempCookies[name] : null;
+            });
+
+            return result;
         }
 
         public async ValueTask DisposeAsync()

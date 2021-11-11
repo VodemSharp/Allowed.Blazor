@@ -1,4 +1,5 @@
-﻿using Allowed.Blazor.Common.Storages;
+﻿using Allowed.Blazor.Common.Helpers;
+using Allowed.Blazor.Common.Storages;
 using Microsoft.AspNetCore.Components;
 using System.Threading.Tasks;
 
@@ -8,15 +9,19 @@ namespace Allowed.Blazor.Common.Components
     {
         [Parameter] public RenderFragment ChildContent { get; set; }
         [Inject] private StorageQueue Queue { get; set; }
+        [Inject] private CookieLocker CookieLocker { get; set; }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             if (firstRender)
             {
-                while (Queue.Tasks.Count > 0)
-                    await Queue.Tasks.Dequeue().Invoke();
+                await CookieLocker.LockAsync(async () =>
+                {
+                    while (Queue.Tasks.Count > 0)
+                        await Queue.Tasks.Dequeue().Invoke();
 
-                Queue.Ready = true;
+                    Queue.Ready = true;
+                });
             }
         }
     }
