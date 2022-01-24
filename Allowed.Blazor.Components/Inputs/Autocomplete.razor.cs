@@ -16,6 +16,7 @@ namespace Allowed.Blazor.Components.Inputs
         [Parameter] public EventCallback<string> InputValueChanged { get; set; }
         [Parameter] public string NotFoundText { get; set; }
         [Parameter] public int? InputDelay { get; set; }
+        [Parameter] public bool ShowIfEmpty { get; set; }
 
         private bool Focused { get; set; } = false;
         private bool Typing { get; set; } = false;
@@ -67,7 +68,7 @@ namespace Allowed.Blazor.Components.Inputs
         private void FocusOut() => Focused = false;
         private void Focus() => Focused = true;
 
-        private bool IsDropdownShow() => Focused && !Typing && !string.IsNullOrEmpty(InputValue);
+        private bool IsDropdownShow() => Focused && !Typing && (!string.IsNullOrEmpty(InputValue) || ShowIfEmpty);
 
         private async Task SelectItem(AutocompleteItem<T> item)
         {

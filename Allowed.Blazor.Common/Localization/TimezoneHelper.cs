@@ -17,7 +17,7 @@ namespace Allowed.Blazor.Common.Localization
             _jsRuntime = jsRuntime;
         }
 
-        private async Task<double> GetTimezoneOffset() => await (await Module).InvokeAsync<double>("getTimezoneOffset");
+        public async Task<double> GetTimezoneOffset() => await (await Module).InvokeAsync<double>("getTimezoneOffset");
 
         public async Task<DateTime> ToLocalTime(DateTime dateTime)
         {
