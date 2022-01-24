@@ -1,5 +1,6 @@
 ﻿using Microsoft.JSInterop;
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Allowed.Blazor.Common.Localization
@@ -7,6 +8,7 @@ namespace Allowed.Blazor.Common.Localization
     public class TimezoneHelper : IAsyncDisposable
     {
         private readonly IJSRuntime _jsRuntime;
+        private readonly CancellationTokenSource _cts = new();
 
         private Task<IJSObjectReference> _module;
         private Task<IJSObjectReference> Module => _module ??=
@@ -17,7 +19,7 @@ namespace Allowed.Blazor.Common.Localization
             _jsRuntime = jsRuntime;
         }
 
-        public async Task<double> GetTimezoneOffset() => await (await Module).InvokeAsync<double>("getTimezoneOffset");
+        public async Task<double> GetTimezoneOffset() => await (await Module).InvokeAsync<double>("getTimezoneOffset", _cts.Token);
 
         public async Task<DateTime> ToLocalTime(DateTime dateTime)
         {
@@ -27,7 +29,11 @@ namespace Allowed.Blazor.Common.Localization
         public async ValueTask DisposeAsync()
         {
             if (_module != null)
+            {
+                _cts.Cancel();
+                _cts.Dispose();
                 await (await _module).DisposeAsync();
+            }
         }
     }
 }

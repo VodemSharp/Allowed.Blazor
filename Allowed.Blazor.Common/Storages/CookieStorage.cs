@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.JSInterop;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Allowed.Blazor.Common.Storages
@@ -10,6 +11,7 @@ namespace Allowed.Blazor.Common.Storages
     public class CookieStorage : IAsyncDisposable
     {
         private readonly IJSRuntime _jsRuntime;
+        private readonly CancellationTokenSource _cts = new();
         private readonly StorageQueue _queue;
         private readonly CookieLocker _cookieLocker;
         private readonly Dictionary<string, string> _tempCookies = new();
@@ -56,19 +58,19 @@ namespace Allowed.Blazor.Common.Storages
 
         public async Task SetCookie(string name, string value, int maxAge = 86400, string domain = "", string path = "/")
         {
-            await InvokeSet(async () => await (await Module).InvokeVoidAsync("setCookie", name, value, maxAge, domain, path),
+            await InvokeSet(async () => await (await Module).InvokeVoidAsync("setCookie", _cts.Token, name, value, maxAge, domain, path),
                 name, value);
         }
 
         public async Task SetSessionCookie(string name, string value, string domain = "", string path = "/")
         {
-            await InvokeSet(async () => await (await Module).InvokeVoidAsync("setSessionCookie", name, value, domain, path),
+            await InvokeSet(async () => await (await Module).InvokeVoidAsync("setSessionCookie", _cts.Token, name, value, domain, path),
                 name, value);
         }
 
         public async Task RemoveCookie(string name, string domain = "", string path = "/")
         {
-            await InvokeSet(async () => await (await Module).InvokeVoidAsync("removeCookie", name, domain, path),
+            await InvokeSet(async () => await (await Module).InvokeVoidAsync("removeCookie", _cts.Token, name, domain, path),
                 name, null);
         }
 
@@ -78,7 +80,7 @@ namespace Allowed.Blazor.Common.Storages
             await _cookieLocker.LockAsync(async () =>
             {
                 if (_queue.Ready)
-                    result = await (await Module).InvokeAsync<string>("getCookie", name);
+                    result = await (await Module).InvokeAsync<string>("getCookie", _cts.Token, name);
                 else
                     result = _tempCookies.ContainsKey(name) ? _tempCookies[name] : null;
             });
@@ -89,7 +91,11 @@ namespace Allowed.Blazor.Common.Storages
         public async ValueTask DisposeAsync()
         {
             if (_module != null)
+            {
+                _cts.Cancel();
+                _cts.Dispose();
                 await (await _module).DisposeAsync();
+            }
         }
     }
 }
