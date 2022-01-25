@@ -18,7 +18,7 @@ namespace Allowed.Blazor.Common.Storages
 
         private Task<IJSObjectReference> _module;
         private Task<IJSObjectReference> Module => _module ??=
-            _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Allowed.Blazor.Common/cookie-storage.js").AsTask();
+            _jsRuntime.InvokeAsync<IJSObjectReference>("import", _cts.Token, "./_content/Allowed.Blazor.Common/cookie-storage.js").AsTask();
 
         public CookieStorage(IHttpContextAccessor accessor, IJSRuntime jsRuntime, StorageQueue queue, CookieLocker cookieLocker)
         {

@@ -12,7 +12,7 @@ namespace Allowed.Blazor.Common.Localization
 
         private Task<IJSObjectReference> _module;
         private Task<IJSObjectReference> Module => _module ??=
-            _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Allowed.Blazor.Common/timezone.js").AsTask();
+            _jsRuntime.InvokeAsync<IJSObjectReference>("import", _cts.Token, "./_content/Allowed.Blazor.Common/timezone.js").AsTask();
 
         public TimezoneHelper(IJSRuntime jsRuntime)
         {
