@@ -1,6 +1,5 @@
 ﻿using Microsoft.JSInterop;
 using System;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Allowed.Blazor.Common.Storages
@@ -8,12 +7,11 @@ namespace Allowed.Blazor.Common.Storages
     public class LocalStorage : IAsyncDisposable
     {
         private readonly IJSRuntime _jsRuntime;
-        private readonly CancellationTokenSource _cts = new();
         private readonly StorageQueue _queue;
 
         private Task<IJSObjectReference> _module;
         private Task<IJSObjectReference> Module => _module ??=
-            _jsRuntime.InvokeAsync<IJSObjectReference>("import", _cts.Token, "./_content/Allowed.Blazor.Common/local-storage.js").AsTask();
+            _jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Allowed.Blazor.Common/local-storage.js").AsTask();
 
         public LocalStorage(IJSRuntime jsRuntime, StorageQueue queue)
         {
@@ -31,22 +29,18 @@ namespace Allowed.Blazor.Common.Storages
 
         public async Task SetLocal(string name, string value)
         {
-            await InvokeSet(async () => await (await Module).InvokeVoidAsync("setLocal", _cts.Token, name, value));
+            await InvokeSet(async () => await (await Module).InvokeVoidAsync("setLocal", name, value));
         }
 
         public async Task<string> GetLocal(string name)
         {
-            return await (await Module).InvokeAsync<string>("getLocal", _cts.Token, name);
+            return await (await Module).InvokeAsync<string>("getLocal", name);
         }
 
         public async ValueTask DisposeAsync()
         {
             if (_module != null)
-            {
-                _cts.Cancel();
-                _cts.Dispose();
                 await (await _module).DisposeAsync();
-            }
         }
     }
 }
