@@ -3,7 +3,7 @@
 }
 
 export function warning(value) {
-    console.error(value);
+    console.warn(value);
 }
 
 export function error(value) {

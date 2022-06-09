@@ -11,6 +11,7 @@
     <RepositoryType>git</RepositoryType>
     <PackageId>Allowed.Blazor.Common</PackageId>
     <RepositoryUrl>https://github.com/VodemSharp/Allowed.Blazor</RepositoryUrl>
+    <PackageVersion>1.2.5</PackageVersion>
   </PropertyGroup>
 
   

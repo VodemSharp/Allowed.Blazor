@@ -1,5 +1,6 @@
 ﻿using Microsoft.JSInterop;
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Allowed.Blazor.Common.Console
@@ -19,17 +20,17 @@ namespace Allowed.Blazor.Common.Console
 
         public async Task Info(string value)
         {
-            await (await Module).InvokeVoidAsync("info", value);
+            await (await Module).InvokeVoidAsync("info", Timeout.InfiniteTimeSpan, value);
         }
 
         public async Task Warning(string value)
         {
-            await (await Module).InvokeVoidAsync("warning", value);
+            await (await Module).InvokeVoidAsync("warning", Timeout.InfiniteTimeSpan, value);
         }
 
         public async Task Error(string value)
         {
-            await (await Module).InvokeVoidAsync("error", value);
+            await (await Module).InvokeVoidAsync("error", Timeout.InfiniteTimeSpan, value);
         }
 
         public async ValueTask DisposeAsync()
